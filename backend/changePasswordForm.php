@@ -6,7 +6,7 @@
     <title>Chang  Password</title>
 </head>
 <body>
-    <?php    include_once('header.html');       ?>
+    
     <form action="changePassword.php" method="GET">
         <label>รหัสผ่านเดิม</label>
         <input type="text" value="" name="p_memOld"/><br>

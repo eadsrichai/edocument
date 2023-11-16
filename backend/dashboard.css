@@ -53,7 +53,7 @@
   }
 
   input[type=text], input[type=password] {
-    width: 300px;
+    width: 100px;
     padding: 5px 5px;
     margin: 10px;
     box-sizing: border-box;
@@ -69,6 +69,20 @@ input[type=submit]{
   font-size: 30px; 
   font-weight: bolder;
 }
+
+.section-column-3 {
+  width: 100%;
+}
+.section-column-1 {
+  width: 30%;
+}
+.section-column-2 {
+  width: 30%;
+}
+.section-column-3 {
+  width: 30%;
+}
+
   .footer {
     text-align: center;
     background-color: gainsboro;

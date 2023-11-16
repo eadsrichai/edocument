@@ -6,38 +6,50 @@
     <title>ค้นหาเอกสาร</title>
 </head>
 <body>
-    <div class="section-container-data">
+    <div class="">
         <form action="index.php" method="GET">
          <label>ค้นหาข้อมูล</label>
-         <input type="text" value="" name="name"  placeholder="ค้นหาโดย ชื่อเรื่อง หรือ วันเดือนปี หรือผู้ส่ง"/>
+         <input type="text" value="" name="namedoc"  placeholder="ค้นหาโดย ชื่อเรื่อง"/>
          <input type="hidden" value="5" name="menu"/>
-         <input type="submit" value="ค้นหา" name="search" />
+         <input type="submit" value="SearchByName" name="submit" />
+        </form>
+    
+        <form action="index.php" method="GET">
+         <label>ค้นหาข้อมูล</label>
+         <input type="date" value="" name="mydate"  placeholder="ค้นหาโดย วันเดือนปี "/>
+         <input type="hidden" value="5" name="menu"/>
+         <input type="submit" value="SearchByDate" name="submit" />
         </form>
     </div>
 
+
+
     <div>
+
+
     <?php 
-    if(isset($_GET['search'])){
-        $namedoc = $_GET['name'];
-        
-        
-
-    include_once('db.php');
-    $sql = "SELECT  * FROM sender_user
-    LEFT JOIN doc
-    ON doc.id_doc = sender_user.id_doc
-    LEFT JOIN  type_doc
-    ON doc.id_type = type_doc.id_type
-  
-
-    WHERE name_doc like '%$namedoc%'
-    -- OR date_sender like '2023'
-
-    ";
-
-    $result = $conn->query($sql);
+    if(isset($_GET['submit']) == "SearchByName"){
+        $namedoc = $_GET['namedoc'];
+        echo $namedoc;
+        include_once('db.php');
+        $sql = "SELECT  * FROM sender_user,doc,type_doc
+        WHERE   doc.id_doc = sender_user.id_doc
+        AND     doc.id_type = type_doc.id_type
+        AND     doc.name_doc like '%$namedoc%' ";
+       
+    } else if(isset($_GET['submit']) == "SearchByDate"){
+        $mydate = $_GET['mydate'];
+        echo $mydate;
+        include_once('db.php');
+        $sql = "SELECT  * FROM sender_user,doc,type_doc
+        WHERE   doc.id_doc = sender_user.id_doc
+        AND     doc.id_type = type_doc.id_type
+        AND     date_sender = '$mydate' ";
+         $result = $conn->query($sql);
+    }
    
     ?>
+
     <div>
     <hr>
     <table style="width:100%">
@@ -66,7 +78,7 @@
     </div>
 <hr>
 
-<?php  } ?>
+
 
 
     </div>

@@ -7,11 +7,11 @@
 
           include_once('db.php');
           if($_GET['p_memOld'] == $_SESSION['p']){
-            $sql = "UPDATE member SET p_mem = ?   WHERE u_mem = ?";
+            $sql = "UPDATE user SET p_user = ?   WHERE u_user = ?";
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("ss", $p_mem,$u_mem);
-            $p_mem = $_GET['p_memNew'];
-            $u_mem = $_SESSION['u'];
+            $stmt->bind_param("ss", $p_user,$u_user);
+            $p_user = $_GET['p_memNew'];
+            $u_user = $_SESSION['u'];
         
             $stmt->execute();
             $stmt->close();
@@ -20,7 +20,7 @@
             exit(0);
           }else {
             echo "รหัสผ่านเดิมไม่ถูกต้อง";
-            header( "location: changePasswordForm.php" );
+            header( "location: index.php?menu=6" );
             exit(0);
           }
 

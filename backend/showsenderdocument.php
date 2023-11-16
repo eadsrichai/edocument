@@ -1,14 +1,9 @@
 <?php  
     include_once('db.php');
-    $sql = "SELECT  * FROM sender_user
-    LEFT JOIN doc
-    ON sender_user.id_doc = doc.id_doc
-    LEFT JOIN type_doc
-    ON doc.id_type = type_doc.id_type
-    ";
-
+    $sql = "SELECT  * FROM sender_user,doc,type_doc
+    WHERE sender_user.id_doc = doc.id_doc
+    AND doc.id_type = type_doc.id_type";
     $result = $conn->query($sql);
-   
     ?>
     <div>
     <table style="width:100%">
@@ -33,6 +28,4 @@
     </table>
     </div>
 <hr>
-<div>
-    <a href="#">เพิ่มประเภทเอกสาร</a>
-</div>
+
