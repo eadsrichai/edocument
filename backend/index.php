@@ -34,6 +34,7 @@ if(isset($_SESSION['u'])
                     switch($menu){
                     case '1': include_once('managementuser.php'); break;
                     case '11': include_once('user-update-form.php'); break;
+                    case '12': include_once('user-update-profile-form.php'); break;
                     case '2': include_once('managementdocument.php'); break;
                     case '21': include_once('type-update-form1.php'); break;
                     case '22': include_once('type-update-add-type-doc.php'); break;
