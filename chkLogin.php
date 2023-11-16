@@ -21,7 +21,7 @@
         $_SESSION["fname_user"] = $row["fname_user"];
         $_SESSION["lname_user"] = $row["lname_user"];
         $_SESSION["name_role"] = $row["name_role"];
-        header( "location: backend/index.php" );    
+        header( "location: backend/index.php?menu=5" );    
         exit(0);
     }else {
         session_start();
