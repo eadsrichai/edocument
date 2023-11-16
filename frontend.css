@@ -1,0 +1,19 @@
+.welcome {
+    font-size: 60px;
+    text-align: center;
+    background-color: darkorange;
+}
+.login {
+    text-align: center;
+}
+input[type=text], input[type=password] {
+    width: 300px;
+    padding: 5px 5px;
+    margin: 10px;
+    box-sizing: border-box;
+  }
+input[type=submit]{
+    background-color: #2596be;
+    color: white;
+    padding: 5px;
+}
