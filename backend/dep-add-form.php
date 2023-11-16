@@ -6,6 +6,10 @@
     ?>
 <div>
 <div><p class="header-data">การจัดการหน่วยงานต่าง ๆ</p></div>
+<div>
+<button onclick="history.back()">ย้อนกลับ</button>
+</div>
+<hr>
     <table>
     <thead>
         <tr>
@@ -35,7 +39,7 @@ while($row = $result->fetch_assoc()) { ?>
 <hr>
 <div>
 <?php 
-session_start();
+
 if( isset($_SESSION['error2'])){ ?>
                 <label style="color:red;">
                     <?php  echo $_SESSION['error2']; ?>

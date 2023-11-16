@@ -24,15 +24,17 @@
     width: 30%;
     float: left;
     background-color: aliceblue;
+    height: 70vh;
   }
   .section-container-right {
     width: 69%;
     float: right;
     background-color:  aliceblue;
+    height: 70vh;
   }
 
   table {
-    align-items: start;
+    /* align-items: start; */
     width: 80%;
     border-width: 0px;
     border-collapse: collapse;
@@ -40,20 +42,20 @@
   }
   tr td {
     align-items: start;
-    text-align: center;
+    /* text-align: center; */
     border-width: 0px;
     border-collapse: collapse;
    
   }
   thead {
-    text-align: center;
+    /* text-align: center; */
     font-weight: bolder;
     /* background-color: gainsboro; */
     border-collapse: collapse;
   }
 
   input[type=text], input[type=password] {
-    width: 100px;
+    width: 200px;
     padding: 5px 5px;
     margin: 10px;
     box-sizing: border-box;

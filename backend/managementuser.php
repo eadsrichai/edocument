@@ -8,7 +8,7 @@ $result = $conn->query($sql);
 if ($result->num_rows > 0) {
 ?>
 
-<div><p class="header-data">การจัดการผู้ใช้</p></div>
+<div><p class="header-data">การจัดการกลุ่มผู้ใช้</p></div>
 <hr>
 
     <div >
@@ -16,7 +16,7 @@ if ($result->num_rows > 0) {
         <thead>
             <tr>
                 <td>รหัสผู้ใช้งาน</td>
-                <td>ชื่อผู้ใช้</td>
+                <td>Username</td>
                 <td>กลุ่มผู้ใช้งาน</td>
                 <td>อนุญาต</td>
                 <td>ระงับการใช้งาน</td>

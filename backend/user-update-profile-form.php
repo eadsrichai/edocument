@@ -1,5 +1,5 @@
 <?php  
-    session_start();
+    
     $id_user = $_SESSION['id_user'];
     include_once('db.php');
     $sql = "SELECT * FROM user WHERE id_user like '$id_user'";
@@ -7,6 +7,9 @@
 if ($row = $result->fetch_assoc()) {
     ?>
 <div>
+<div><p class="header-data">การแก้ไขข้อมูลส่วนตัว</p></div>
+    <hr>
+
     <table>
     <thead>
         <tr>

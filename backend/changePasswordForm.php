@@ -6,7 +6,10 @@
     <title>Chang  Password</title>
 </head>
 <body>
-    
+    <div>
+    <div><p class="header-data">การจัดการเปลี่ยนรหัสผ่าน</p></div>
+    <hr>
+    </div>
     <form action="changePassword.php" method="GET">
         <label>รหัสผ่านเดิม</label>
         <input type="text" value="" name="p_memOld"/><br>
@@ -14,5 +17,6 @@
         <input type="text" value="" name="p_memNew"/><br>
         <input type="submit" value="เปลี่ยนรหัสผ่าน" name="changPassword" />
     </form>
+    </div>
 </body>
 </html>

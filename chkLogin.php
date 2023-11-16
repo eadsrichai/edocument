@@ -1,7 +1,7 @@
 <?php
     $u = $_GET['u_user'];
     $p = $_GET['p_user'];
-    include_once('db.php');
+    include_once('backend/db.php');
     $sql = "SELECT u.id_user, u.u_user, u.p_user, u.fname_user, u.lname_user, r.name_role 
             FROM   user u,role r
             WHERE u.id_role = r.id_role    

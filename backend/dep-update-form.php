@@ -17,6 +17,8 @@
         <title>Document</title>
     </head>
     <body>
+    <div><p class="header-data">การจัดการหน่วยงานต่าง ๆ</p></div>
+<hr>
         <div>
             <form action="dep-update.php" method="GET">
                 <label>รหัสหน่วยงาน</label>
