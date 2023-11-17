@@ -21,13 +21,13 @@
     height: 70vh;
   }
   .section-container-left {
-    width: 30%;
+    width: 20%;
     float: left;
     background-color: aliceblue;
     height: 70vh;
   }
   .section-container-right {
-    width: 69%;
+    width: 79%;
     float: right;
     background-color:  aliceblue;
     height: 70vh;

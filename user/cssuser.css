@@ -1,0 +1,64 @@
+#page {
+  display: grid;
+  width: 95%;
+  height: 98vh;
+  gap: 5px;
+  margin-left: auto;
+  margin-right: auto;
+  grid-template-areas:
+    "head head"
+    "nav  main"
+    "foot  foot";
+  grid-template-rows: 80px 1fr 50px;
+  grid-template-columns: 350px 1fr;
+}
+
+#page > header {
+  grid-area: head;
+  border-radius: 10px;
+  background-color: #eef4f0;
+}
+
+#page > nav {
+  grid-area: nav;
+  background-color: #f0dc9f;
+}
+
+#page > main {
+  padding: 20px;
+  grid-area: main;
+  background-color: #e3f1f2;
+}
+
+#page > footer {
+  font-size: 16px;
+  text-align: center;
+  grid-area: foot;
+  background-color: #eaebe5;
+}
+
+
+.nav {
+    color: aliceblue;
+    text-align: left;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  .nav li {
+    display: inline-block;
+    font-size: 20px;
+    padding: 20px;
+  }
+  .header {
+    font-size: 30px;
+    font-weight: bolder;
+    font-family: sans-serif;
+  }
+  table {
+    /* width: 80%; */
+  }
+  td {
+    text-align: left;
+  }
+  
