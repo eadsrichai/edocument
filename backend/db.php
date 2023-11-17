@@ -2,9 +2,9 @@
 
 try {
     $servername = "localhost:3307";
-    $username = "user3";
+    $username = "user1";
     $password = "asdf";
-    $db = "user3";
+    $db = "user1";
 
     $conn = new mysqli($servername, $username, $password, $db);
     mysqli_set_charset($conn,"utf8mb4");

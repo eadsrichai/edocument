@@ -1,3 +1,10 @@
+<?php session_start(); 
+if(isset($_SESSION['u']) 
+&& $_SESSION['u'] != null 
+&& isset($_SESSION['p']) 
+&& $_SESSION['p'] != null){
+    ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,7 +18,8 @@
 <body>
     <section id="page">
         <header>
-            <?php include_once('menu-top.html'); ?>
+            <?php include_once('menu-top.php'); ?>
+            
         </header>
         <nav>
             <?php include_once('menu-left.html'); ?>
@@ -26,3 +34,6 @@
 </body>
 
 </html>
+
+
+<?php } ?>

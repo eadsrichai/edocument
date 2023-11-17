@@ -39,11 +39,11 @@
                 <select name="id_user_re" multiple>
                 <?php 
                     include_once('../backend/db.php');
-                    $sql = "SELECT  * FROM user";
+                    $sql = "SELECT  * FROM dep";
                     $result = $conn->query($sql);
                     while ($row = $result->fetch_assoc()) {
                 ?>
-                    <option value="<?php echo $row['id_user']  ?>"><?php echo $row['fname_user'] ?></option>
+                    <option value="<?php echo $row['id_dep']  ?>"><?php echo $row['name_dep'] ?></option>
                     <?php } ?>
                     </select>
                 </td>
@@ -125,17 +125,18 @@ if (isset($_POST['upload']) && $_POST['upload'] == "ส่งไฟล์") {
 
     echo $id_doc;
 
-    $sql22 = "SELECT   dep.name_dep, dep.id_dep
+    $sql22 = "SELECT   user.id_user,user.fname_user
     FROM user,dep
     WHERE user.id_dep = dep.id_dep
-    AND user.id_user  LIKE '$id_user_re'";
+    AND user.id_dep   LIKE '$id_dep'";
 
     $result = $conn->query($sql22);
-    $id_dep = "";
-    if($row = $result->fetch_assoc()) {
-        $id_dep = $row['id_dep'];
+    
+    while($row = $result->fetch_assoc()) {
+        $id_user = $row['id_user'];
+        echo $id_user;
     }
-    echo $id_dep;
+    
 
     $sql3 = "INSERT INTO sender_user(id_user,id_user_re,id_dep,id_doc,date_sender,status_read)
     VALUES('$id_user','$id_user_re','$id_dep','$id_doc',current_timestamp(),'0')";
