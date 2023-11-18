@@ -125,20 +125,20 @@ if (isset($_POST['upload']) && $_POST['upload'] == "ส่งไฟล์") {
 
     echo $id_doc;
 
-    $sql22 = "SELECT   dep.name_dep, dep.id_dep
-    FROM user,dep
-    WHERE user.id_dep = dep.id_dep
-    AND user.id_user  LIKE '$id_user_re'";
+    // $sql22 = "SELECT   dep.name_dep, dep.id_dep
+    // FROM user,dep
+    // WHERE user.id_dep = dep.id_dep
+    // AND user.id_user  LIKE '$id_user_re'";
 
-    $result = $conn->query($sql22);
-    $id_dep = "";
-    if($row = $result->fetch_assoc()) {
-        $id_dep = $row['id_dep'];
-    }
-    echo $id_dep;
+    // $result = $conn->query($sql22);
+    // $id_dep = "";
+    // if($row = $result->fetch_assoc()) {
+    //     $id_dep = $row['id_dep'];
+    // }
+    // echo $id_dep;
 
-    $sql3 = "INSERT INTO sender_user(id_user,id_user_re,id_dep,id_doc,date_sender,status_read)
-    VALUES('$id_user','$id_user_re','$id_dep','$id_doc',current_timestamp(),'0')";
+    $sql3 = "INSERT INTO sender_user(id_user,id_user_re,id_doc,date_send,status_read,status_send)
+    VALUES('$id_user','$id_user_re','$id_doc',current_timestamp(),'0','0')";
 
     $stmt = $conn->prepare($sql3);
     if (!$stmt->execute()) {
@@ -173,7 +173,12 @@ if (isset($_POST['upload']) && $_POST['upload'] == "ส่งไฟล์") {
 // include_once('../backend/db.php');
 $id_user = $_SESSION['id_user'];
 echo $id_user;
-$sql = "SELECT  sender_user.id_user_re,sender_user.date_sender,sender_user.status_read, user.fname_user,type_doc.name_type ,doc.name_doc
+$sql = "SELECT  sender_user.id_user_re,
+sender_user.date_send,
+sender_user.status_read, 
+user.fname_user,
+type_doc.name_type,
+doc.name_doc
 FROM user,sender_user,type_doc,doc
 WHERE  sender_user.id_user_re = user.id_user
 AND   sender_user.id_doc = doc.id_doc
@@ -191,7 +196,7 @@ while ($row = $result->fetch_assoc()) {
             <tr>
                 <td><?php echo $i++; ?></td>
                 <td><?php echo $row['name_doc']; ?></td>
-                <td><?php echo $row['date_sender']; ?></td>
+                <td><?php echo $row['date_send']; ?></td>
                 <td><?php echo $row['name_type']; ?></td>
                 <td><?php echo $row['fname_user']; ?></td>
                 <td><?php if ($row['status_read'] == '0') {

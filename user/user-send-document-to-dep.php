@@ -3,7 +3,7 @@
 </div>
 <hr>
 <div>
-    <form action="index.php?menu=1" method="POST" enctype="multipart/form-data">
+    <form action="index.php?menu=2" method="POST" enctype="multipart/form-data">
         <table>
             <tr>
                 <td><label>ประเภทเอกสาร</label></td>
@@ -36,7 +36,7 @@
             <tr>
                 <td><label>เลือกผู้ใช้ที่ต้องการส่ง</label></td>
                 <td>
-                <select name="id_user_re" multiple>
+                <select name="id_dep_re" multiple>
                 <?php 
                     include_once('../backend/db.php');
                     $sql = "SELECT  * FROM dep";
@@ -64,7 +64,7 @@ if (isset($_POST['upload']) && $_POST['upload'] == "ส่งไฟล์") {
     $name_doc = $_POST['name_doc'];
     $detail_doc = $_POST['detail_doc'];
     $id_user = $_SESSION['id_user'];
-    $id_user_re = $_POST['id_user_re'];
+    $id_dep_re = $_POST['id_dep_re'];
 
 
     if ($_FILES['fileToUpload']['error'] !== UPLOAD_ERR_OK) {
@@ -125,21 +125,21 @@ if (isset($_POST['upload']) && $_POST['upload'] == "ส่งไฟล์") {
 
     echo $id_doc;
 
-    $sql22 = "SELECT   user.id_user,user.fname_user
-    FROM user,dep
-    WHERE user.id_dep = dep.id_dep
-    AND user.id_dep   LIKE '$id_dep'";
+    // $sql22 = "SELECT   user.id_user,user.fname_user,dep.name_dep
+    // FROM user,dep
+    // WHERE user.id_dep = dep.id_dep
+    // AND user.id_dep   LIKE '$id_dep_re'";
 
-    $result = $conn->query($sql22);
+    // $result = $conn->query($sql22);
     
-    while($row = $result->fetch_assoc()) {
-        $id_user = $row['id_user'];
-        echo $id_user;
-    }
+    // while($row = $result->fetch_assoc()) {
+    //     $id_user = $row['id_user'];
+    //     echo $id_user;
+    // }
     
 
-    $sql3 = "INSERT INTO sender_user(id_user,id_user_re,id_dep,id_doc,date_sender,status_read)
-    VALUES('$id_user','$id_user_re','$id_dep','$id_doc',current_timestamp(),'0')";
+    $sql3 = "INSERT INTO sender_dep(id_user,id_dep_re,id_doc,date_send,status_read,status_send)
+    VALUES('$id_user','$id_dep_re','$id_doc',current_timestamp(),'0','0')";
 
     $stmt = $conn->prepare($sql3);
     if (!$stmt->execute()) {
@@ -174,12 +174,15 @@ if (isset($_POST['upload']) && $_POST['upload'] == "ส่งไฟล์") {
 // include_once('../backend/db.php');
 $id_user = $_SESSION['id_user'];
 echo $id_user;
-$sql = "SELECT  sender_user.id_user_re,sender_user.date_sender,sender_user.status_read, user.fname_user,type_doc.name_type ,doc.name_doc
-FROM user,sender_user,type_doc,doc
-WHERE  sender_user.id_user_re = user.id_user
-AND   sender_user.id_doc = doc.id_doc
+$sql = "SELECT  sender_dep.id_dep_re,sender_dep.date_send,
+sender_dep.status_read,dep.name_dep,
+type_doc.name_type ,doc.name_doc
+FROM user,sender_dep,type_doc,doc,dep
+WHERE  sender_dep.id_dep_re = dep.id_dep
+AND   sender_dep.id_doc = doc.id_doc
 AND    doc.id_type = type_doc.id_type
-AND    sender_user.id_user LIKE '$id_user'";
+AND    sender_dep.id_user = user.id_user
+AND    sender_dep.id_user LIKE  '$id_user'";
 
 
 $result = $conn->query($sql);
@@ -192,9 +195,9 @@ while ($row = $result->fetch_assoc()) {
             <tr>
                 <td><?php echo $i++; ?></td>
                 <td><?php echo $row['name_doc']; ?></td>
-                <td><?php echo $row['date_sender']; ?></td>
+                <td><?php echo $row['date_send']; ?></td>
                 <td><?php echo $row['name_type']; ?></td>
-                <td><?php echo $row['fname_user']; ?></td>
+                <td><?php echo $row['name_dep']; ?></td>
                 <td><?php if ($row['status_read'] == '0') {
                             echo "ยังไม่อ่าน";
                         } else {
