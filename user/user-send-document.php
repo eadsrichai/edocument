@@ -154,7 +154,7 @@ if (isset($_POST['upload']) && $_POST['upload'] == "ส่งไฟล์") {
 }
 ?>
 <div>
-    <table style="width: 80%;">
+    <table>
         <thead>
             <tr>
                 <th>ลำดับ</th>

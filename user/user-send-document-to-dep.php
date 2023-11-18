@@ -147,8 +147,7 @@ if (isset($_POST['upload']) && $_POST['upload'] == "ส่งไฟล์") {
         exit;
     }
 
-    // Close the database connection
-    // $conn->close();
+   
 
     // Success message
     echo "File uploaded successfully";
@@ -175,14 +174,14 @@ if (isset($_POST['upload']) && $_POST['upload'] == "ส่งไฟล์") {
 $id_user = $_SESSION['id_user'];
 echo $id_user;
 $sql = "SELECT  sender_dep.id_dep_re,sender_dep.date_send,
-sender_dep.status_read,dep.name_dep,
-type_doc.name_type ,doc.name_doc
-FROM user,sender_dep,type_doc,doc,dep
-WHERE  sender_dep.id_dep_re = dep.id_dep
-AND   sender_dep.id_doc = doc.id_doc
-AND    doc.id_type = type_doc.id_type
-AND    sender_dep.id_user = user.id_user
-AND    sender_dep.id_user LIKE  '$id_user'";
+        sender_dep.status_read,dep.name_dep,
+        type_doc.name_type ,doc.name_doc
+FROM    user,sender_dep,type_doc,doc,dep
+WHERE   sender_dep.id_dep_re = dep.id_dep
+AND     sender_dep.id_doc = doc.id_doc
+AND     doc.id_type = type_doc.id_type
+AND     sender_dep.id_user = user.id_user
+AND     sender_dep.id_user LIKE  '$id_user'";
 
 
 $result = $conn->query($sql);
@@ -210,6 +209,8 @@ while ($row = $result->fetch_assoc()) {
 
 
 <?php
+ 
+    $conn->close();
 }
 
 ?>
