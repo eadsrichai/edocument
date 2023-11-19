@@ -32,7 +32,7 @@
             <label>Tel</label>
             <input type="text" value="" name="tel_user" /><br>
             <label>แผนก</label>
-             <?php include_once('db.php'); 
+             <?php include_once('backend/db.php'); 
                 $sql = "SELECT *  FROM   dep";
                 $stmt = $conn->prepare($sql); 
                 $stmt->execute();

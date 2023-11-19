@@ -1,9 +1,11 @@
+ 
+
 <div class="header">
     <p>ส่งเอกสารให้ผู้ใช้งานคนอื่น</p>
 </div>
 <hr>
 <div>
-    <form action="index.php?menu=1" method="POST" enctype="multipart/form-data">
+    <form action="user-send-document-update.php" method="POST" enctype="multipart/form-data">
         <table>
             <tr>
                 <td><label>ประเภทเอกสาร</label></td>
@@ -21,13 +23,37 @@
                 </td>
             </tr>
             <tr>
+                <?php
+            include_once('../backend/db.php');
+            $id_doc = $_GET['id_doc'];
+            $id_user = $_GET['id_user'];
+            $id_user_re = $_GET['id_user_re'];
+
+            ?>
+            
+            <?php
+            $sql = "SELECT * 
+            FROM sender_user,user,type_doc,doc,dep 
+            WHERE  sender_user.id_user_re = user.id_user
+            AND     sender_user.id_doc = doc.id_doc
+            AND     doc.id_type = type_doc.id_type 
+            AND		user.id_dep = dep.id_dep
+            AND     sender_user.id_doc LIKE '$id_doc'
+            AND     sender_user.id_user LIKE '$id_user'
+            AND     sender_user.id_user_re LIKE '$id_user_re'";
+
+            $result = $conn->query($sql);
+            if($row = $result->fetch_assoc()) { 
+                $id_user_temp = $row['id_user'];
+?>
+               
                 <td><label>เรื่อง</label></td>
-                <td><input type="text" value="" name="name_doc" />
+                <td><input type="text" value="<?php echo $row['name_doc']; ?>" name="name_doc" />
                 </td>
             </tr>
             <tr>
                 <td><label>รายละเอียด</label></td>
-                <td><input type="text" value="" name="detail_doc" /></td>
+                <td><input type="text" value="<?php echo $row['detail_doc']; ?>" name="detail_doc" /></td>
             </tr>
             <tr>
                 <td><label>เลือกไฟล์ที่ต้องการส่ง</label></td>
@@ -42,9 +68,12 @@
                     $sql = "SELECT  * FROM user";
                     $result = $conn->query($sql);
                     while ($row = $result->fetch_assoc()) {
+                        if($id_user_temp == $row['id_user']){
                 ?>
-                    <option value="<?php echo $row['id_user']  ?>"><?php echo $row['fname_user'] ?></option>
-                    <?php } ?>
+                    <option selected value="<?php echo $row['id_user']  ?>"><?php echo $row['fname_user'] ?></option>
+                    <?php }else { ?>
+                        <option  value="<?php echo $row['id_user']  ?>"><?php echo $row['fname_user'] ?></option>
+                    <?php } }?>
                     </select>
                 </td>
                 <tr>
@@ -66,6 +95,7 @@ if (isset($_POST['upload']) && $_POST['upload'] == "ส่งไฟล์") {
     $id_user = $_SESSION['id_user'];
     $id_user_re = $_POST['id_user_re'];
 
+    if($_FILES['fileToUpload']['name'] == null){
 
     if ($_FILES['fileToUpload']['error'] !== UPLOAD_ERR_OK) {
         echo "Error uploading file: " . $_FILES['fileToUpload']['error'];
@@ -107,7 +137,7 @@ if (isset($_POST['upload']) && $_POST['upload'] == "ส่งไฟล์") {
     $sql1 = "INSERT INTO doc(name_doc,detail_doc,id_type,file)
     VALUES('$name_doc','$detail_doc','$id_type','$uniqueFileName')";
 
-
+    
     $stmt = $conn->prepare($sql1);
   
     // $stmt->bind_param("sss", $uniqueFileName, $fileType, $fileSize);
@@ -135,66 +165,23 @@ if (isset($_POST['upload']) && $_POST['upload'] == "ส่งไฟล์") {
 
     // Success message
     echo "File uploaded successfully";
-}
-?>
-<div>
-    <table>
-        <thead>
-            <tr>
-                <th>ลำดับ</th>
-                <th>ชื่อเรื่อง</th>
-                <th>วันที่ส่ง</th>
-                <th>ประเภท</th>
-                <th>ผู้รับ</th>
-                <th>สถานะ</th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
 
-<?php
+}else {
 
-$id_user = $_SESSION['id_user'];
-$sql = "SELECT  sender_user.id_user_re,
-sender_user.date_send,
-sender_user.status_read, 
-user.fname_user,
-type_doc.name_type,
-doc.id_doc,
-doc.name_doc
-FROM user,sender_user,type_doc,doc
-WHERE  sender_user.id_user_re = user.id_user
-AND   sender_user.id_doc = doc.id_doc
-AND    doc.id_type = type_doc.id_type
-AND    sender_user.id_user LIKE '$id_user'";
+    $sql = "UPDATE  doc 
+            SET name_doc = '$name_doc',
+                detail_doc = '$detail_doc',
+                id_type = '$id_type',
+            WHERE id_doc like '$id_doc'";
 
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+        }
+    }
+//     header("Location: index.php?menu=1");
+// exit(0);
+} 
 
-$result = $conn->query($sql);
-$i = 1;
-
-while ($row = $result->fetch_assoc()) {
-
-?>
-
-            <tr>
-                <td><?php echo $i++; ?></td>
-                <td><?php echo $row['name_doc']; ?></td>
-                <td><?php echo $row['date_send']; ?></td>
-                <td><?php echo $row['name_type']; ?></td>
-                <td><?php echo $row['fname_user']; ?></td>
-                <td><?php if ($row['status_read'] == '0') {
-                            echo "ยังไม่อ่าน";
-                        } else {
-                            echo "อ่านแล้ว";
-                        }; ?></td>
-                <td>
-                    <a href="user-cancle-send-document.php?id_user=<?php echo $id_user; ?>&id_user_re=<?php echo $row['id_user_re']; ?>&id_doc=<?php echo $row['id_doc']; ?>">ยกเลิกการส่ง</a></td>
-                <td> 
-                    <a href="user-send-document-form-update.php?id_user=<?php echo $id_user; ?>&id_user_re=<?php echo $row['id_user_re']; ?>&id_doc=<?php echo $row['id_doc']; ?>">แก้ไขการส่ง</a></td>
-            </tr>
-<?php
-}
 
 ?>
  </tbody>

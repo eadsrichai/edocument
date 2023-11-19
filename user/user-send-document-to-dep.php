@@ -1,5 +1,5 @@
 <div class="header">
-    <p>ส่งเอกสารให้ผู้ใช้งานคนอื่น</p>
+    <p>ส่งเอกสารให้หน่วยงาน</p>
 </div>
 <hr>
 <div>
@@ -50,8 +50,6 @@
                 <tr>
                     <td><input type="submit" value="ส่งไฟล์" name="upload" /></td>
                 </tr>
-                
-
         </table>
     </form>
 
@@ -123,38 +121,57 @@ if (isset($_POST['upload']) && $_POST['upload'] == "ส่งไฟล์") {
         $id_doc = $row['docmax'];
     }
 
-    echo $id_doc;
-
-    // $sql22 = "SELECT   user.id_user,user.fname_user,dep.name_dep
-    // FROM user,dep
-    // WHERE user.id_dep = dep.id_dep
-    // AND user.id_dep   LIKE '$id_dep_re'";
-
-    // $result = $conn->query($sql22);
     
-    // while($row = $result->fetch_assoc()) {
-    //     $id_user = $row['id_user'];
-    //     echo $id_user;
-    // }
-    
+// ทำการเลือกแผนกปลายทาง หลังจากนั้นค้นหาว่าครูในแผนกมีจำนวนกี่คน
+// แล้ววนรอบ ในการ insert ข้อลงไปให้ครบ ทุกคนในแผนก
 
-    $sql3 = "INSERT INTO sender_dep(id_user,id_dep_re,id_doc,date_send,status_read,status_send)
-    VALUES('$id_user','$id_dep_re','$id_doc',current_timestamp(),'0','0')";
+    $sql3 = "SELECT  user.id_user,dep.id_dep
+            FROM user,dep
+            WHERE  dep.id_dep = user.id_dep
+            AND  dep.id_dep = '$id_dep_re'";
 
-    $stmt = $conn->prepare($sql3);
-    if (!$stmt->execute()) {
-        echo "Error inserting data into database: " . $stmt->error;
-        exit;
+    $result = $conn->query($sql3);
+    $id_user = $_SESSION['id_user'];
+    while($row = $result->fetch_assoc()) {
+        $id_user_re = $row['id_user'];
+        $id_dep = $row['id_dep'];
+        
+        $sql33 = "INSERT INTO sender_user(id_user,id_user_re,id_doc,date_send,status_read,status_send,status_dep)
+                  VALUES('$id_user','$id_user_re','$id_doc',now(),'0','0','$id_dep')";
+                 $stmt = $conn->prepare($sql33);
+                 $stmt->execute();
     }
-
-   
-
     // Success message
     echo "File uploaded successfully";
 }
 ?>
+
+
+<?php
+
+$id_user = $_SESSION['id_user'];
+$sql = "SELECT  sender_user.id_user_re,
+        sender_user.date_send,
+        sender_user.status_read, 
+        sender_user.status_dep,
+        user.fname_user,
+        type_doc.name_type,
+        doc.name_doc,dep.name_dep
+        FROM user,sender_user,type_doc,doc,dep
+        WHERE  sender_user.id_user_re = user.id_user
+        AND   sender_user.id_doc = doc.id_doc
+        AND    doc.id_type = type_doc.id_type
+        and    sender_user.status_dep = dep.id_dep
+        AND    sender_user.id_user LIKE '$id_user'
+        GROUP BY sender_user.id_doc";
+
+
+$result = $conn->query($sql);
+
+$i = 1;
+?>
 <div>
-    <table style="width: 80%;">
+    <table>
         <thead>
             <tr>
                 <th>ลำดับ</th>
@@ -169,27 +186,7 @@ if (isset($_POST['upload']) && $_POST['upload'] == "ส่งไฟล์") {
         </thead>
         <tbody>
 
-<?php
-// include_once('../backend/db.php');
-$id_user = $_SESSION['id_user'];
-echo $id_user;
-$sql = "SELECT  sender_dep.id_dep_re,sender_dep.date_send,
-        sender_dep.status_read,dep.name_dep,
-        type_doc.name_type ,doc.name_doc
-FROM    user,sender_dep,type_doc,doc,dep
-WHERE   sender_dep.id_dep_re = dep.id_dep
-AND     sender_dep.id_doc = doc.id_doc
-AND     doc.id_type = type_doc.id_type
-AND     sender_dep.id_user = user.id_user
-AND     sender_dep.id_user LIKE  '$id_user'";
-
-
-$result = $conn->query($sql);
-$i = 1;
-
-while ($row = $result->fetch_assoc()) {
-
-?>
+        <?php   while ($row = $result->fetch_assoc()) { ?>
 
             <tr>
                 <td><?php echo $i++; ?></td>
@@ -205,15 +202,9 @@ while ($row = $result->fetch_assoc()) {
                 <td><a href="">ยกเลิกการส่ง</a></td>
                 <td><a href="">แก้ไขการส่ง</a></td>
             </tr>
-       
-
-
-<?php
- 
-    $conn->close();
-}
-
-?>
- </tbody>
+    
+<?php   }  ?> 
+        </tbody>
     </table>
+ 
 </div>

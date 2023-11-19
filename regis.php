@@ -1,6 +1,6 @@
 <?php
 
-    include_once('db.php');
+    include_once('backend/db.php');
 
     $sql = "INSERT INTO user(u_user,p_user,pre_user,fname_user,lname_user,email_user,tel_user,status_user,id_role,id_dep)
             VALUES(?,?,?,?,?,?,?,?,?,?)";
