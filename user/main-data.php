@@ -7,6 +7,8 @@
         case '2' : include_once('user-send-document-to-dep.php'); break;
         case '3' : include_once('user-send-document-to-all.php'); break;
         case '4' : include_once('user-receive-document-from-all.php'); break;
+        case '11' : include_once('user-update-profile-form.php'); break;
+        case '12' : include_once('changePasswordForm.php'); break;
     }
 
 }

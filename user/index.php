@@ -25,6 +25,9 @@ if(isset($_SESSION['u'])
             <?php include_once('menu-left.html'); ?>
         </nav>
         <main>
+        <div style="color: red;float: right;">
+            <?php  echo " ". $_SESSION['fname_user'] . " online"  ?>
+        </div>
             <?php include_once('main-data.php'); ?>
         </main>
         <footer>
